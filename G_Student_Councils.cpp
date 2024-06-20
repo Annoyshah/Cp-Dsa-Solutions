@@ -50,9 +50,6 @@ bool get( vi v , int n , int k, int mid , int sm ){
 //     }
 //     sum+=cnt;
 // }
-  for(int j=0 ; j<n ; j++){
-      cnt+=min(v[j],mid);
-    }
 if(cnt>=mid*k){
     return true;
 }

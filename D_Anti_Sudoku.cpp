@@ -69,8 +69,7 @@ int i=0 , j=0;
 int arr[9] = {0,3,6,1,4,7,2,5,8};
 for(int i=0 ; i<9 ; i++){
     if(vec[i][arr[i]]!='1') vec[i][arr[i]]='1';
-    else vec[i][arr[i]]='2';
-    
+    else vec[i][arr[i]]='2'; 
 }
 for(int i=0 ; i<9 ; i++){
     for(int j=0 ; j<9 ; j++){

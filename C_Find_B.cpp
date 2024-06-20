@@ -37,48 +37,6 @@ const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
 
-
-
-const int N = 200000;
-int n, k;
-int a[N+5], h[N+5], pref[N+5], length[N+5];
-int binarySearch(const std::vector<int>& vec, int target) {
-    int low = 0;
-    int high = vec.size() - 1;
-
-    while (low <= high) {
-        int mid = low + (high - low) / 2;
-        if (vec[mid] == target) {
-            return mid; // Element found
-        } else if (vec[mid] < target) {
-            low = mid + 1;
-        } else {
-            high = mid - 1;
-        }
-    }
-
-    return -1; // Element not found
-}
-
-int countDistinctInRange(const std::vector<int>& vec, int l, int r) {
-    // Sort the vector
-    std::vector<int> sortedVec = vec;
-    std::sort(sortedVec.begin(), sortedVec.end());
-
-    // Find the positions of l and r in the sorted vector
-    int lIndex = binarySearch(sortedVec, l);
-    int rIndex = binarySearch(sortedVec, r);
-
-    // Handle the case when l or r are not present in the vector
-    if (lIndex == -1) lIndex = std::upper_bound(sortedVec.begin(), sortedVec.end(), l) - sortedVec.begin();
-    if (rIndex == -1) rIndex = std::upper_bound(sortedVec.begin(), sortedVec.end(), r) - sortedVec.begin();
-
-    // Count the number of distinct elements between lIndex and rIndex
-    int distinctCount = std::set<int>(sortedVec.begin() + lIndex, sortedVec.begin() + rIndex).size();
-
-    return distinctCount;
-}
-
 void comderoP0612(){
    int n,q;
    cin>>n>>q;

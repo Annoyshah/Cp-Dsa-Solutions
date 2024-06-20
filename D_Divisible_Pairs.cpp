@@ -38,69 +38,7 @@ const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
 void comderoP0612(){
-
-int n , x ,y ;
-cin>>n>>x>>y;
-vi v(n);
-cin>>v;
-vector<pii> vec(n);
-vector<pii> vec1(n);
-map<int,int> mp;
-map<int,int> mp1;
-map<int , vi> mp2;
-map<int , vi> mp3;
-for(int i=0 ; i<n ; i++){
-    vec[i] = {v[i]%x , v[i]};
-}
-for(int i=0 ; i<n ; i++){
-    vec1[i] = {v[i]%y , v[i]};
-}
-for(int i=0 ; i<n ; i++){
-    mp[v[i]%x]++;
-}
-for(int i=0 ; i<n ; i++){
-   mp1[v[i]] = v[i]%y;
-}
-sort(all(vec));
-sort(all(vec1));
-// int cnt=0;
-// deb(vec);
-// int j=0;
-// int i=vec.size()-1;
-// while(j<=i){
-//     if(vec[j].ff == x - vec[i].ff){
-
-//     }
-// }
-for(int i=0 ; i<vec.size() ; i++){
-    mp2[vec[i].ff].pb(vec[i].ss);
-}
-for(int i=0 ; i<vec1.size() ; i++){
-    mp3[vec1[i].ff].pb(vec1[i].ss);
-}
-int cnt=0;
-for(auto &it : mp2){
-    int i = it.first; // Current key
-    vector<int>& vec1 = it.second; // Vector corresponding to current key
-    vector<int>& vec2 = mp2[x - i]; // Vector corresponding to x - current key
     
-    // Iterate over vec1
-    for(int j = 0; j < vec1.size(); j++) {
-        // Iterate over vec2
-        for(int k = 0; k < vec2.size(); k++) {
-            if((vec1[j] - vec2[k]) % y ==0) {
-                cnt++;
-                // Erase the element from vec2 to ensure uniqueness
-                vec2.erase(vec2.begin() + k);
-                // Break from the inner loop to avoid counting the same pair multiple times
-                break;
-            }
-        }
-    }
- 
-}
-
-cout<<cnt<<endl;
 }
 int32_t main() { 
     // #ifndef ONLINE_JUDGE

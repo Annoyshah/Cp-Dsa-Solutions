@@ -31,7 +31,19 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 #define pii pair<int,int> 
 #define vi vector<int>
 #define repL(i, a, b) for(int i = (a); i < (b); i++)
-
+vector<ll>divisors;
+void Divisors(ll n){
+    for(ll i=1;i<=sqrt(n);i++){
+        if(n%i==0){
+            if(n/i==i){
+                divisors.push_back(i);
+            }else{
+                divisors.push_back(i);
+                divisors.push_back(n/i);
+            }
+        }
+    }
+}
  
 const int mod = 1e9+7;
 const int mod2 = 998244353;

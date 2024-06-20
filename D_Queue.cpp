@@ -68,9 +68,7 @@ for(int i=1 ; i<n ; i++){
     if(it<n && it!=i+1){
         pref[i+1] = pref[i] + v[it];
         swap(v[it],v[i+1]);
-        // deb(pref[i]);
-        // deb(pref[i+1]);
-        // deb(v);
+      
         cnt++;
     }
     if(it<n && it==i+1){
@@ -79,7 +77,12 @@ for(int i=1 ; i<n ; i++){
     }
     pref[i+1] = pref[i] + v[i+1];
 }
-cout<<cnt<<endl;
+if(n>=2){
+    cout<<cnt<<endl;
+}
+else{
+    cout<<1<<endl;
+}
 }
 int32_t main() { 
     // #ifndef ONLINE_JUDGE

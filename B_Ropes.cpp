@@ -36,9 +36,7 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-bool get(int mid , vector<int>& vec , int k , int sum){
-    
-}
+
 
 void comderoP0612(){
     int n, k, ans = 0;

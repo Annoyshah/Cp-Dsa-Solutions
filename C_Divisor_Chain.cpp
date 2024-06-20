@@ -31,7 +31,9 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 #define pii pair<int,int> 
 #define vi vector<int>
 #define repL(i, a, b) for(int i = (a); i < (b); i++)
-
+// observation was that for a binary number n , its lowest significant bit is always its divisor so
+// for examle 1110(14) an be converted to 1100(12) and ten to 1000(8)..Now as soon as we reach the neraest two's power i.e 8 in this example 
+// another observation was that 2^k+1 is always divisible by 2^k an so on we will move till 2 by dividing the given number by 2 and then push_back 1 to the vec and sz(vec) will be our answer 
 
 // Accepted Solution 
 string convertToBinary(int num) {

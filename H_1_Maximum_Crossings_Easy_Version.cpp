@@ -51,7 +51,7 @@ ordered_set st;
 map<int,int> mp;
 int cnt=0;
 for(int i=1 ;i<n+1 ; i++){
-  st.insert(v[i]);
+  st.insert(v[i]); // oreder set defination greater equal 
     cnt+=(st.order_of_key(v[i])+mp[v[i]]);
     mp[v[i]]++;
 }
