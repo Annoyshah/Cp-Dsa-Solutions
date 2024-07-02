@@ -77,102 +77,16 @@ bool check_if_peak_max(vector<int>& p , vector<int>& q , int r){
     }
     return !found;
 }
-int countConsecutiveSegment(set<int> & st){
-    
-  auto prev = *st.begin();
-  int cnt=0;
-  for(auto it = st.begin() ; it!=st.end()  ; ++it){
-    if(it == st.begin()) continue;
-    if(*it == prev + 1){
-        cnt++;
-        prev = *it;
-        continue;
-    }
-    else{
-        break;
-     }
-
-  }
-  return ((cnt==0) ? 0 : cnt+1);
-
-}
 void comderoP0612() {
-    int n;
-    cin >> n;
-    vi vec(n, 0);
-    cin >> vec;
-    // deb(n);
-
-    set<int> st(vec.begin() , vec.end());
-    if(sz(st)==1){
-        cout<<"Alice"<<endl;
-        return;
-    }
-    else if(*st.begin() == 1){
-        int num = countConsecutiveSegment(st);
-        int random = sz(st)  - num;
-      if(num>0 and random!=0){
-          if(random == 0){
-            cout<<"Alice"<<endl;
-            return;
-        }
-        if(num %2!=0 and random!=0 and random%2!=0){
-            cout<<"Bob"<<endl;
-            return;
-
-        }
-         if(num %2!=0 and random!=0 and random%2==0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-         if(num %2==0 and random!=0 and random%2!=0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-         if(num %2==0 and random!=0 and random%2==0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-      }
-      else if(num==0 and random == sz(st)){
-        cout<<"Bob"<<endl;
-        return;
-      }
-      else if(num == sz(st) and random==0){
-        if(num%2==0){
-            cout<<"Bob"<<endl;
-            return;
-        }
-        else{
-            cout<<"Alice"<<endl;
-            return;
-        }
-      }
-    }
-    else{
-        // cout<<"hi"<<endl;
-         int num = countConsecutiveSegment(st);
-         int random = sz(st) - num;
-        //  deb(num);
-        //  deb(random);
-         if(num>0 and random!=0){
-         cout<<"Alice"<<endl;
-         return;
-         }
-         else if(random == sz(st) and num==0){
-           cout<<"Alice"<<endl;
-           return;
-         }
-         else if(num==sz(st) and random==0){
-            cout<<"Alice"<<endl;
-            return;
-         }
-        
-    }
-}
+  int a,b,c;
+  cin>>a>>b>>c;
+  int dist=INT_MAX;
+//   vector<it> vec
+  for(int i=1 ; i<=10 ; i++){
+    dist = min(dist , abs(a-i) + abs(b-i) + abs(c-i));
+  }
+  cout<<dist<<endl;
+  }
 int32_t main() { 
     cin.tie(0)->sync_with_stdio(0);
     int t;

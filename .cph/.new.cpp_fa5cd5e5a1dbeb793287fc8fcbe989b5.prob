@@ -1,0 +1,1 @@
+{"name":"Local: new","url":"c:\\cpp_Progs\\new.cpp","tests":[{"id":1718973465076,"input":"5\n3 5 6 7 8 ","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\cpp_Progs\\new.cpp","group":"local","local":true}

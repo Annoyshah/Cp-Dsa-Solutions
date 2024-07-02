@@ -77,102 +77,41 @@ bool check_if_peak_max(vector<int>& p , vector<int>& q , int r){
     }
     return !found;
 }
-int countConsecutiveSegment(set<int> & st){
-    
-  auto prev = *st.begin();
-  int cnt=0;
-  for(auto it = st.begin() ; it!=st.end()  ; ++it){
-    if(it == st.begin()) continue;
-    if(*it == prev + 1){
-        cnt++;
-        prev = *it;
-        continue;
-    }
-    else{
-        break;
-     }
-
-  }
-  return ((cnt==0) ? 0 : cnt+1);
-
-}
 void comderoP0612() {
-    int n;
-    cin >> n;
-    vi vec(n, 0);
-    cin >> vec;
-    // deb(n);
-
-    set<int> st(vec.begin() , vec.end());
-    if(sz(st)==1){
-        cout<<"Alice"<<endl;
-        return;
-    }
-    else if(*st.begin() == 1){
-        int num = countConsecutiveSegment(st);
-        int random = sz(st)  - num;
-      if(num>0 and random!=0){
-          if(random == 0){
-            cout<<"Alice"<<endl;
-            return;
-        }
-        if(num %2!=0 and random!=0 and random%2!=0){
-            cout<<"Bob"<<endl;
-            return;
-
-        }
-         if(num %2!=0 and random!=0 and random%2==0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-         if(num %2==0 and random!=0 and random%2!=0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-         if(num %2==0 and random!=0 and random%2==0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-      }
-      else if(num==0 and random == sz(st)){
-        cout<<"Bob"<<endl;
-        return;
-      }
-      else if(num == sz(st) and random==0){
-        if(num%2==0){
-            cout<<"Bob"<<endl;
-            return;
-        }
-        else{
-            cout<<"Alice"<<endl;
-            return;
-        }
-      }
-    }
-    else{
-        // cout<<"hi"<<endl;
-         int num = countConsecutiveSegment(st);
-         int random = sz(st) - num;
-        //  deb(num);
-        //  deb(random);
-         if(num>0 and random!=0){
-         cout<<"Alice"<<endl;
-         return;
-         }
-         else if(random == sz(st) and num==0){
-           cout<<"Alice"<<endl;
-           return;
-         }
-         else if(num==sz(st) and random==0){
-            cout<<"Alice"<<endl;
-            return;
-         }
-        
-    }
+int n;
+cin>>n;
+vi vec(2*n,0);
+cin>>vec;
+// here we can buteforce for n=4 what all sequences could be by running four loops and getting a*b = d+c and a*c = b + d and a*d = b+c and b*d = a+c and b*c = a + d ad c*d = a+b
+// we get a sequence -1 -1 -1 2 here , apaet from 0 0 0 0 sequnce and 2 , 2, 2 ,2 sequence which only works for  n=4
+if(n==1){
+    int ans1=0;
+    ans1+= abs(vec[0] - vec[1]);
+   cout<<ans1<<endl;
+   return;
 }
+int ans=0;
+sort(all(vec));
+for(int i=0 ; i<sz(vec) ; i++){
+    ans+= abs(vec[i]);
+}
+ if(n==2){
+      int ans2=0;
+    for(int i=0 ; i<sz(vec) ; i++){
+        ans2+= abs(vec[i] - 2);
+    }
+   ans = min(ans , ans2);
+}
+if(n%2==0){
+    int ansminusone = abs(vec[2*n-1] - n);
+    for(int i=0 ; i<=2*n-2 ;i++){
+        ansminusone+=  abs(vec[i]-(-1));
+    }
+    ans = min(ans ,  ansminusone);
+}
+cout<<ans<<endl;
+}
+
 int32_t main() { 
     cin.tie(0)->sync_with_stdio(0);
     int t;

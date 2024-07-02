@@ -77,102 +77,47 @@ bool check_if_peak_max(vector<int>& p , vector<int>& q , int r){
     }
     return !found;
 }
-int countConsecutiveSegment(set<int> & st){
-    
-  auto prev = *st.begin();
-  int cnt=0;
-  for(auto it = st.begin() ; it!=st.end()  ; ++it){
-    if(it == st.begin()) continue;
-    if(*it == prev + 1){
-        cnt++;
-        prev = *it;
-        continue;
-    }
-    else{
-        break;
-     }
-
-  }
-  return ((cnt==0) ? 0 : cnt+1);
-
-}
 void comderoP0612() {
-    int n;
-    cin >> n;
+    int n, m;
+    cin >> n >> m;
     vi vec(n, 0);
     cin >> vec;
-    // deb(n);
+    m--;
+    vi pref(n, 0);
+    pref[0] = vec[0];
+    for (int i = 1; i < n; i++) {
+        pref[i] = pref[i - 1] + vec[i];
+    }
 
-    set<int> st(vec.begin() , vec.end());
-    if(sz(st)==1){
-        cout<<"Alice"<<endl;
-        return;
-    }
-    else if(*st.begin() == 1){
-        int num = countConsecutiveSegment(st);
-        int random = sz(st)  - num;
-      if(num>0 and random!=0){
-          if(random == 0){
-            cout<<"Alice"<<endl;
-            return;
+    priority_queue<int> pq;
+    int curr = pref[m];
+    int operation = 0;
+    for (int idx=m ; idx >= 0 ; --idx) {
+        while (!pq.empty() && pref[idx] < curr ) {
+            int top = pq.top();
+            pq.pop();
+            curr -= 2 * top;
+            operation++;
         }
-        if(num %2!=0 and random!=0 and random%2!=0){
-            cout<<"Bob"<<endl;
-            return;
+        pq.push(vec[idx]);
+    }
 
+   curr = pref[m];
+    priority_queue<int, vector<int>, greater<int>> minHeap;
+
+    for(int idx2 = m+1 ; idx2<n ; idx2++) {
+        minHeap.push(vec[idx2]);
+        while (!minHeap.empty() && curr > pref[idx2]) {
+            int top = minHeap.top();
+            minHeap.pop();
+            curr += 2 * top;
+            operation++;
         }
-         if(num %2!=0 and random!=0 and random%2==0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-         if(num %2==0 and random!=0 and random%2!=0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-         if(num %2==0 and random!=0 and random%2==0){
-            cout<<"Alice"<<endl;
-            return;
-            
-        }
-      }
-      else if(num==0 and random == sz(st)){
-        cout<<"Bob"<<endl;
-        return;
-      }
-      else if(num == sz(st) and random==0){
-        if(num%2==0){
-            cout<<"Bob"<<endl;
-            return;
-        }
-        else{
-            cout<<"Alice"<<endl;
-            return;
-        }
-      }
     }
-    else{
-        // cout<<"hi"<<endl;
-         int num = countConsecutiveSegment(st);
-         int random = sz(st) - num;
-        //  deb(num);
-        //  deb(random);
-         if(num>0 and random!=0){
-         cout<<"Alice"<<endl;
-         return;
-         }
-         else if(random == sz(st) and num==0){
-           cout<<"Alice"<<endl;
-           return;
-         }
-         else if(num==sz(st) and random==0){
-            cout<<"Alice"<<endl;
-            return;
-         }
-        
-    }
+
+    cout << operation << endl;
 }
+
 int32_t main() { 
     cin.tie(0)->sync_with_stdio(0);
     int t;
