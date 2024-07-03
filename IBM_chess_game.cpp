@@ -78,6 +78,24 @@ void dfs(int node  , vi adj[] , vi& vis , vi& ans){
         dfs(it , adj , vis , ans);
     }
 }
+vector<int> reassignedPriorities(vector<int>& p){
+    int n = p.size();
+     map<int,int> mp;
+     for(auto &it : p) mp[it]++;
+     int var=1;
+     map<int,int> mp2;
+     for(auto &it : mp){
+        mp2[it.ff] = var;
+        var++;
+     }
+     for(int i=0 ; i<n ; i++){
+        if(mp2.find(p[i])!=mp2.end()) p[i] = mp2[p[i]];
+     }
+     return p;
+}
+int findMissingInteger(vector<int>& arr , long k){
+    set<int>
+}
 }
 void comderoP0612(){
      int n;
