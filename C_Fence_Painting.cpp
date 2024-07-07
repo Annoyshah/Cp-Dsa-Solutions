@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,73 +36,97 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-int tt=1;
-
-bool check(int mid , int n , int k , map<int,int> mp){
-    // deb(mid);
-    if(n>1){
-        vi tstamp(n+1,0);
-    for(auto &it : mp){
-        // deb(it.ss);
-        if(it.ss >= mid ){
-            it.ss-=mid;
-            tstamp[it.ff] = (mid);
-        }
-        else{
-            
-            tstamp[it.ff] = (it.ss);
-            it.ss=0;
-        }
-    }
-    int sum=0;
-    for(auto &it : mp){
-       sum+= (2*it.ss);
-    }
-    // deb(sum);
-    for(int i=1 ; i<=n ; i++){
-        // deb(i);
-        // deb(tstamp[i]);
-        // deb(sum);
-        if(tstamp[i]<mid and sum + tstamp[i] >= mid) sum-=(mid - tstamp[i]);
-        else if(tstamp[i]<mid and sum + tstamp[i]<=mid) sum = 0;
-    }
-    if(sum == 0 && tstamp[n]<=mid) return true;
-    }
-    else{
-        return(mid>=mp[1]);
-    }
-    // deb(sum);
-    
-    return false;
-}
-//jcext cext cet ce c
 void comderoP0612() {
+    int n, m;
+    cin >> n >> m;
     
-   string s;
-        long long pos;
-        cin >> s >> pos;
-        --pos;
-        
-        int curLen = s.size();
-        vector <char> st;
-        bool ok = pos < curLen;
-        s += '$';
-        
-        for (auto c : s) {
-            while (!ok && st.size() > 0 && st.back() > c) {
-                pos -= curLen;
-                --curLen;
-                st.pop_back();
-                
-                if(pos < curLen) 
-                    ok = true;
-            }
-            st.push_back(c);
-        }
-        
-        cout << st[pos];
-}
+    vi vec(n);
+    cin >> vec;
+    
+    vi naya(n);
+    cin >> naya;
+    
+    vi colors(m);
+    cin >> colors;
 
+    
+
+   
+     map<int,vi> mp4;
+    for(int i=0 ; i<m ; i++){
+        mp4[colors[i]].pb(i);
+    }
+
+    map<int,vi> mp2;
+      map<int,vi> mp;
+   
+    for(int i=0 ;i<n ; i++){
+        if(naya[i]!=vec[i]){
+            mp2[naya[i]].pb(i);
+        }
+        mp[naya[i]].pb(i);
+
+    }
+   bool found =  false;
+   for(int i=0 ; i<n ; i++){
+    if(naya[i]==colors[m-1]){
+        found = true;
+        break;
+    }
+   }
+   if(found){
+    bool sad =  false;
+     for(auto &it : mp2){
+        if(mp4[it.ff].size()>=it.ss.size()) continue;
+        else sad = true;
+     }
+     if(!sad){
+        cout<<"YES"<<endl;
+        vi res(m,-1);
+        for(auto &it : mp2){
+            int num = it.ss.size();
+          if(mp4.find(it.ff)!=mp4.end()){
+                for(int i=0  ; i<mp4[it.ff].size() ; i++){
+                if(num==0) break;
+                    res[mp4[it.ff][i]] = it.ss.back();
+                    it.ss.pop_back();
+                    num--;
+            }
+          }
+        }
+        // deb(res);
+        for(int i=0 ; i<m ; i++){
+            if(res[i]==-1 and mp.find(colors[i])!=mp.end()){
+                res[i] = mp[colors[i]].back();
+                // mp[colors[i]].pop_back();
+            }
+        }
+        // deb(res);
+        for(int i=0 ; i<m ; i++){
+            if(res[i]>=0){
+                int num = res[i];
+                int idx = i-1;
+                while(idx>=0 and res[idx]==-1){
+                    res[idx] = num;
+                    idx--;
+                }
+            }
+        }
+        for(int i=0 ; i<m ; i++){
+            cout<<res[i]+1<<" ";
+        }
+    cout<<endl;
+    return;
+     }
+     else{
+        cout<<"NO"<<endl;
+        return;
+     }
+   }else{
+    cout<<"NO"<<endl;
+    return;
+   }
+}
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);

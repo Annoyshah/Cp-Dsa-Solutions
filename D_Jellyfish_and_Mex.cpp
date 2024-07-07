@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,73 +36,67 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-int tt=1;
+void comderoP0612(){
 
-bool check(int mid , int n , int k , map<int,int> mp){
-    // deb(mid);
-    if(n>1){
-        vi tstamp(n+1,0);
-    for(auto &it : mp){
-        // deb(it.ss);
-        if(it.ss >= mid ){
-            it.ss-=mid;
-            tstamp[it.ff] = (mid);
-        }
-        else{
-            
-            tstamp[it.ff] = (it.ss);
-            it.ss=0;
-        }
-    }
-    int sum=0;
-    for(auto &it : mp){
-       sum+= (2*it.ss);
-    }
-    // deb(sum);
-    for(int i=1 ; i<=n ; i++){
-        // deb(i);
-        // deb(tstamp[i]);
-        // deb(sum);
-        if(tstamp[i]<mid and sum + tstamp[i] >= mid) sum-=(mid - tstamp[i]);
-        else if(tstamp[i]<mid and sum + tstamp[i]<=mid) sum = 0;
-    }
-    if(sum == 0 && tstamp[n]<=mid) return true;
-    }
-    else{
-        return(mid>=mp[1]);
-    }
-    // deb(sum);
-    
-    return false;
-}
-//jcext cext cet ce c
-void comderoP0612() {
-    
-   string s;
-        long long pos;
-        cin >> s >> pos;
-        --pos;
-        
-        int curLen = s.size();
-        vector <char> st;
-        bool ok = pos < curLen;
-        s += '$';
-        
-        for (auto c : s) {
-            while (!ok && st.size() > 0 && st.back() > c) {
-                pos -= curLen;
-                --curLen;
-                st.pop_back();
-                
-                if(pos < curLen) 
-                    ok = true;
-            }
-            st.push_back(c);
-        }
-        
-        cout << st[pos];
-}
+//    observation i observed : 
+//    order of elements does not matter , it better to sort them or get a frequncy map of them 
+//    you can just sort them out then also the minimum codt would not change 
+//    you can't do it greedily .. 00001223 its benifincial to take out number 1 first to have minimum score so you cannot have any choice that i will take out higher or ssmaller number first
+//    so its good to go dp here
+//    its always benificial to get out all the occourences of a number while adding to score so mp[num-1]*mex + num will be addd to the score
+//    i have n numbers the mex of n numbers can never be greater than n-1
+//    0 1 2 3999 3000 288 (mex=>3)
+//    0 1 2 3 4 5 (mex=>n-1)
+//    mex of above array can never increase more than n-1
+//    numers only betwen 0 to n matter // we only count there frequency
 
+//    what I wasnt able to think :
+//    states of dp here
+//    dp[num][mex] => the numbers with a mex of mex and a[i]<=num
+//    so i have 2 choices here
+//     i can remove all the occources of a[i]=num or leave it and move to another a[j]<=num and j<i
+int n;
+    cin >> n;
+    vi vec(n, 0);
+    cin >> vec;
+    // deb(vec);
+    // Calculate frequency count
+    vi cnt(n + 1, 0);
+    for (int i = 0; i < sz(vec); i++) {
+        if (vec[i] < n ) {
+            cnt[vec[i]]++;
+        }
+    }
+
+    // Calculate overall mex of the array
+    int mex=0;
+    while (cnt[mex] > 0) mex++;
+    if (mex == 0) {
+        cout << 0 << endl;
+        return;
+    }
+    
+  n = mex;
+    vector<vector<int>> dp(n, vector<int>(n + 1, 0));
+
+    // Base case
+    for (int i = 0; i <= n; i++) {
+        dp[0][i] = (cnt[0] - 1) * i ;
+    }
+
+    for (int i = 1; i < n; i++) {
+        for (int j = 0; j <= n; j++) {
+            // Not-take case
+            dp[i][j] = dp[i - 1][j];
+            // Take case
+            int take = (cnt[i]-1) * j + i + dp[i - 1][i];
+            dp[i][j] = min(dp[i][j], take);
+        }
+    }
+    
+    cout << dp[n - 1][n] << endl;
+
+}
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);

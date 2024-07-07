@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -32,78 +31,34 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 #define pii pair<int,int> 
 #define vi vector<int>
 #define repL(i, a, b) for(int i = (a); i < (b); i++)
+#define minf LLONG_MIN 
 
  
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-int tt=1;
-
-bool check(int mid , int n , int k , map<int,int> mp){
-    // deb(mid);
-    if(n>1){
-        vi tstamp(n+1,0);
-    for(auto &it : mp){
-        // deb(it.ss);
-        if(it.ss >= mid ){
-            it.ss-=mid;
-            tstamp[it.ff] = (mid);
-        }
-        else{
-            
-            tstamp[it.ff] = (it.ss);
-            it.ss=0;
-        }
+vector<vector<int>> dp;
+int f(int idx,int cnt, vi& vec, int k) {
+    if (idx >= sz(vec)) return 0;
+    if(dp[idx][cnt]!=-minf) return dp[idx][cnt];
+    int score = 0;
+    int good = -k + (vec[idx]/(1<<cnt)) + f(idx + 1, cnt, vec, k);
+    int bad=0;
+    if(cnt+1 < 31){
+        bad = (vec[idx] / (1 << (cnt + 1))) + f(idx + 1, cnt + 1, vec, k);
     }
-    int sum=0;
-    for(auto &it : mp){
-       sum+= (2*it.ss);
-    }
-    // deb(sum);
-    for(int i=1 ; i<=n ; i++){
-        // deb(i);
-        // deb(tstamp[i]);
-        // deb(sum);
-        if(tstamp[i]<mid and sum + tstamp[i] >= mid) sum-=(mid - tstamp[i]);
-        else if(tstamp[i]<mid and sum + tstamp[i]<=mid) sum = 0;
-    }
-    if(sum == 0 && tstamp[n]<=mid) return true;
-    }
-    else{
-        return(mid>=mp[1]);
-    }
-    // deb(sum);
-    
-    return false;
+    return dp[idx][cnt] = max(good, bad);
 }
-//jcext cext cet ce c
+
 void comderoP0612() {
+    int n, k;
+    cin >> n >> k;
+    vi vec(n, 0);
+    cin>>vec;
     
-   string s;
-        long long pos;
-        cin >> s >> pos;
-        --pos;
-        
-        int curLen = s.size();
-        vector <char> st;
-        bool ok = pos < curLen;
-        s += '$';
-        
-        for (auto c : s) {
-            while (!ok && st.size() > 0 && st.back() > c) {
-                pos -= curLen;
-                --curLen;
-                st.pop_back();
-                
-                if(pos < curLen) 
-                    ok = true;
-            }
-            st.push_back(c);
-        }
-        
-        cout << st[pos];
+    dp = vector<vector<int>>(n + 1, vector<int>(31, minf));
+    cout << f(0,0,vec,k) << endl;
 }
-
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);

@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,73 +36,48 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-int tt=1;
 
-bool check(int mid , int n , int k , map<int,int> mp){
-    // deb(mid);
-    if(n>1){
-        vi tstamp(n+1,0);
-    for(auto &it : mp){
-        // deb(it.ss);
-        if(it.ss >= mid ){
-            it.ss-=mid;
-            tstamp[it.ff] = (mid);
+
+int query(int l  , int r){
+    cout<<"? "<<l<<" "<<r<<endl;
+    cout.flush();
+
+    int cnt=0;
+    for(int i=l , x ; i<=r ; i++){
+        cin>>x;
+        if(x<=r and x>=l){
+            cnt++;
+        }
+    }
+    return cnt;
+}
+// see there are two types of segment S1 and S2 
+// s1 contains pairs that are swappd in same segment and S2 contains pairs that are swapped in different segment 
+// for pairs swapped in same segemnt l to r we can count the numbers that we recieve when we query from interactor we get the number in sorte order from l to r
+// the numbers swapped in same segemnt will, be even thre will be 2x such numbers and one fixed number that didn't change its position so the total numbers will be 2x + 1
+// 2x+1 is odd so when we get the number in segemnt is odd we can move the l and r to foucs from whole array to that particular segment only
+// another segemnt where pairs swapped are in diff segemnts they will be 2y , even 
+// so we can discard elemnts of even number segment and focus binary search in odd number segemnts
+
+void comderoP0612(){
+    int n;
+    cin>>n;
+
+    int l = 1;
+    int r = n;
+    while(l<r){
+        int mid = (l+r)/2;
+        int pairsInSameSegmentPlusFixedNum = query(l , mid);
+        if(pairsInSameSegmentPlusFixedNum&1){
+            r = mid;
         }
         else{
-            
-            tstamp[it.ff] = (it.ss);
-            it.ss=0;
+            l = mid + 1;
         }
     }
-    int sum=0;
-    for(auto &it : mp){
-       sum+= (2*it.ss);
-    }
-    // deb(sum);
-    for(int i=1 ; i<=n ; i++){
-        // deb(i);
-        // deb(tstamp[i]);
-        // deb(sum);
-        if(tstamp[i]<mid and sum + tstamp[i] >= mid) sum-=(mid - tstamp[i]);
-        else if(tstamp[i]<mid and sum + tstamp[i]<=mid) sum = 0;
-    }
-    if(sum == 0 && tstamp[n]<=mid) return true;
-    }
-    else{
-        return(mid>=mp[1]);
-    }
-    // deb(sum);
-    
-    return false;
+    cout<<"! "<<l<<endl;
+    cout.flush();
 }
-//jcext cext cet ce c
-void comderoP0612() {
-    
-   string s;
-        long long pos;
-        cin >> s >> pos;
-        --pos;
-        
-        int curLen = s.size();
-        vector <char> st;
-        bool ok = pos < curLen;
-        s += '$';
-        
-        for (auto c : s) {
-            while (!ok && st.size() > 0 && st.back() > c) {
-                pos -= curLen;
-                --curLen;
-                st.pop_back();
-                
-                if(pos < curLen) 
-                    ok = true;
-            }
-            st.push_back(c);
-        }
-        
-        cout << st[pos];
-}
-
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);
