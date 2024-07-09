@@ -36,35 +36,55 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
+vector<pair<int, int>> find_valid_coordinates(int x, int y, int d) {
+    x--;
+    y--;
+    vector<pair<int, int>> valid_coordinates;
+
+    for (int i = 1; i <= d; ++i) {
+        int j = d - i;
+
+        vector<pair<int, int>> candidates = {
+            {x + i, y + j},
+            {x + i, y - j},
+            {x - i, y + j},
+            {x - i, y - j}
+        };
+
+        for (auto& candidate : candidates) {
+            int p = candidate.first;
+            int q = candidate.second;
+            if (p != x && q != y and p>0 and q>0) {
+                valid_coordinates.push_back(candidate);
+            }
+        }
+    }
+
+    return valid_coordinates;
+}
+int query(int l ,int r){
+ cout<<"? "<<l<<r<<endl;
+ int res=0;
+ cin>>res;
+ return res;
+}
 void comderoP0612(){
-int n,x;
-cin>>n>>x;
-vi v(n);
-cin>>v;
-int ind = 0;
-for(int i=0 ;i<n ; i++){
-    if(v[i]==x){
-        ind = i;
-        break;
-    }
-}
-int l = 1;
-int r = n+1;
-//thoda change krna pdega ,but how 
-while(r-l > 1){
-    int mid = (l+r)>>1;
-    if(v[mid-1]<=x){
-        l = mid;
-    }
-    else{
-        r = mid;
-    }
-}
-cout<<1<<endl;
-cout<<ind+1<<" "<<l<<endl;
+ int n, m;
+ cin>>n>>m;
+
+ int dist = query(n , 1);
+  vector<pair<int,int>> vec = find_valid_coordinates(n , 1 , dist);
+   int dist2 = query(1 , n);
+   vector<pair<int,int>> vec2 = find_valid_coordinates(1 , n , dist2);
+   int dist3 = query(n,m);
+   vector<pair<int,int>> vec3 = find_valid_coordinates(n , m , dist3);
+
+//    for(int )
+deb(vec);
+deb(vec2);
+deb(vec3);
 
 }
-
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);
@@ -75,4 +95,4 @@ int32_t main() {
     cin>>t;
     while(t--) comderoP0612();
     return 0;
-}
+}   

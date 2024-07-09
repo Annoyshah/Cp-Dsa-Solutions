@@ -55,7 +55,7 @@ void comderoP0612() {
     cin >> n >> k;
     vi vec(n, 0);
     cin>>vec;
-    
+    // as 10^9 is max value as we go on doing a[i]/2 as we chose bad key 10^9 will exhaust when nt recahes above 30/31 as 2^30 is approx 10^9(1e9)
     dp = vector<vector<int>>(n + 1, vector<int>(31, minf));
     cout << f(0,0,vec,k) << endl;
 }
