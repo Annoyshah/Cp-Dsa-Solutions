@@ -1,0 +1,208 @@
+/*ॐ श्री गणेशाय नमः || */
+/* ॐ नमः पार्वती पतये हर हर महादेव */
+/* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
+/* ॐ नमो भगवते वासुदेवाय */
+
+#include "bits/stdc++.h"
+using namespace std;
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+#define ordered_set tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update>
+
+template <typename T>
+istream &operator>>(istream &in, vector<T> &v)
+{
+    for (auto &it : v)
+        in >> it;
+    return in;
+}
+template <typename T>
+ostream &operator<<(ostream &os, const vector<T> &v)
+{
+    for (auto &it : v)
+        os << it << " ";
+    return os;
+}
+template <typename T1, typename T2>
+istream &operator>>(istream &in, pair<T1, T2> &p)
+{
+    cin >> p.first >> p.second;
+    return in;
+}
+template <typename T1, typename T2>
+ostream &operator<<(ostream &os, const pair<T1, T2> &p)
+{
+    cout << p.first << " " << p.second;
+    return os;
+}
+template <typename T1, typename T2>
+void maxn(T1 &a, T2 b) { a = max(a, b); }
+template <typename T1, typename T2>
+void maxx(T1 &a, T2 b) { a = max(a, b); }
+
+#define int long long int
+#define ll int
+#define double long double
+#define pb push_back
+#define ff first
+#define ss second
+#define all(v) v.begin(), v.end()
+#define allr(v) v.rbegin(), v.rend()
+#define sz(v) (int)v.size()
+#define deb(x) cout << #x << "=" << x << endl;
+#define pii pair<int, int>
+#define vi vector<int>
+#define repL(i, a, b) for (int i = (a); i < (b); i++)
+
+const int mod = 1e9 + 7;
+const int mod2 = 998244353;
+const double PI = 3.1415926535897932384626433832795;
+
+void comderoP0612()
+{
+    int n;
+    cin >> n;
+    vector<string> vec(n);
+    map<int, int> oddmp;
+    map<int, int> evenmp;
+    // map<int, int> mp;
+    map<pii,int> mpodd;
+    map<pii , int> mpeven;
+
+    for (int i = 0; i < n; i++)
+    {
+        string s;
+        cin >> s;
+        vec[i] = s;
+        int sum = 0;
+        for (int p = 0; p < sz(s); p++)
+        {
+            sum += (s[p] - '0'); 
+        }
+        int len = sz(s);
+        int sm = 0;
+        // deb(s);
+        if (len % 2 == 1)
+        {
+            
+            oddmp[sum]++;
+            mpodd[{len , sum}]++;
+        }
+        else
+        {
+         
+            evenmp[sum]++;
+            mpeven[{len,sum}]++;
+        }
+    }
+    int ans = 0;
+    for (auto &s : vec)
+    {
+        int totalsum = 0;
+        int len = sz(s);
+        int sm = 0;
+        for (int p = 0; p < sz(s); p++)
+        {
+            totalsum += (s[p] - '0'); 
+        }
+        if (sz(s) % 2 == 1)
+        {
+            for (int part = 0; part < len; part++)
+            {
+                sm += (s[part] - '0'); 
+                int rem = len - (part + 1);
+                if (rem < part + 1) break;
+                int remsum = totalsum - sm;
+                int abhism = remsum - sm;
+                int expectedlen = rem - part+1;
+                if (sm <= remsum  && mpodd.find({expectedlen , abhism})!=mpodd.end())
+                {   
+                    // deb(abhism);
+                    // deb(oddmp[abhism]);
+                    // deb(remsum);
+                    ans += mpodd[{expectedlen , abhism}];
+                }
+            }
+            sm = 0;
+            for (int part = len - 1; part >= 0; part--)
+            {
+                sm += (s[part] - '0'); 
+                int rem = part;
+                int abhi = len - part;
+                if (abhi > rem) break;
+                int remsum = totalsum - sm;
+                int abhism = remsum - sm;
+                int expectedlen = rem - abhi;
+                deb(expectedlen);
+                deb(abhism);
+                if (sm <= remsum && mpodd.find({expectedlen , abhism})!=mpodd.end())
+                {   
+                    ans += mpodd[{expectedlen , abhism}];
+                }
+            }
+            int abhism = totalsum;
+            if(mpodd.find({sz(s) , abhism})!=mpodd.end()){
+                ans+=mpodd[{sz(s) , abhism}];
+            }
+        }
+        else
+        {
+            for (int part = 0; part < len; part++)
+            {
+                sm += (s[part] - '0'); 
+                int rem = len - (part + 1);
+                if (rem <= part + 1) break;
+                int remsum = totalsum - sm;
+                int abhism = remsum - sm;
+                int expectedlen = rem - (part + 1);
+                if (sm <= remsum  && mpeven.find({expectedlen , abhism})!=mpeven.end()){
+                // {   deb(abhism);
+                //     deb(evenmp[abhism]);
+                //     deb(remsum);
+                    ans += mpeven[{expectedlen , abhism}];
+                }
+            }
+            sm = 0;
+            for (int part = len - 1; part >= 0; part--)
+            {
+                sm += (s[part] - '0'); 
+                int rem = part;
+                int abhi = len - part;
+                if (abhi >= rem) break;
+                int remsum = totalsum - sm;
+                int abhism = remsum - sm;
+                 int expectedlen = rem - abhi;
+               if (sm <= remsum && mpeven.find({expectedlen , abhism})!=mpeven.end()){
+                // {   deb(abhism);
+                //     deb(evenmp[abhism]);
+                //     deb(remsum);
+                    ans += mpeven[{expectedlen , abhism}];
+                }
+            }
+            int abhism = totalsum;
+            if( mpeven.find({sz(s) , abhism})!=mpeven.end()){
+                ans+=mpeven[{sz(s) , abhism}];
+            }
+        }
+        deb(ans);
+         
+    }
+    cout<<ans<<endl;
+}
+    
+
+
+int32_t main()
+{
+    // #ifndef ONLINE_JUDGE
+    // freopen("paint.in", "r", stdin);
+    // freopen("paint.out", "w", stdout);
+    // #endif
+    cin.tie(0)->sync_with_stdio(0);
+    ll t = 1;
+    // cin >> t;
+    comderoP0612();
+    return 0;
+}

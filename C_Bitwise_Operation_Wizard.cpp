@@ -1,4 +1,4 @@
-/* ॐ श्री गणेशाय नमः || */
+/*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
@@ -27,60 +27,84 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a, b); }
 #define all(v) v.begin(), v.end()
 #define allr(v) v.rbegin(), v.rend()
 #define sz(v) (int)v.size()
-#define deb(x) cout << #x << "=" << x << endl;
+#define deb(x) cout << #x << "=" << x << endl
 #define pii pair<int, int>
 #define vi vector<int>
-#define repL(i, a, b) for(int i = (a); i < (b); i++)
+#define repL(i, a, b) for (int i = (a); i < (b); i++)
 
-const int mod = 1e9+7;
+const int mod = 1e9 + 7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
 
-int can_make_all_1s(string str) {
-    int n = sz(str);
-    for (int k = n; k > 0; k--) {
-        vector<int> v(n, 0); // Store the indices of the last segment index till we have flipped
-        string s = str; // Make a copy of the input string
-        int flipped = 0;
-        bool canbedone = true;
-
-        for (int i = 0; i < n; ++i) {
-            flipped ^= v[i];
-            if (flipped == 1) {
-                s[i] = (s[i] == '0') ? '1' : '0';
-            }
-            if (s[i] == '0') {
-               // Start a new segment, reverse the flip, mark v[i+k] = 1
-                  // if flipped == 1 and s[i]==1 and if flipped=0 and s[i]==0 flip it
-                flipped ^= 1;
-                if (i + k > n) {
-                    canbedone = false;
-                    break;
-                } else if (i + k < n) {
-                    v[i + k] = 1; // Mark the end of the segment to reverse the flip
-                }
-            }
-        }
-        if (canbedone) {
-            return k;
-        }
-    }
-    return 1LL;
+char query(int a, int b, int c, int d) {
+    cout << "? " << a << " " << b << " " << c << " " << d << endl;
+    char response;
+    cin >> response;
+    return response;
 }
 
-void solve() {
+vector<int> topo;
+void canFinish(int V, vector<pii>& prerequisites) {
+    vector<int> adj[V];
+    vector<int> indegree(V, 0);
+    
+    for (auto& it : prerequisites) {
+        adj[it.first].push_back(it.second);
+        indegree[it.second]++;
+    }
+
+    queue<int> q;
+    for (int i = 0; i < V; i++) {
+        if (indegree[i] == 0)
+            q.push(i);
+    }
+
+    while (!q.empty()) {
+        int node = q.front();
+        q.pop();
+        topo.push_back(node);
+        for (auto& it : adj[node]) {
+            indegree[it]--;
+            if (indegree[it] == 0)
+                q.push(it);
+        }
+    }
+}
+
+void comderoP0612() {
     int n;
     cin >> n;
-    string s;
-    cin >> s;
-    int ans = can_make_all_1s(s);
-    cout << ans << endl;
+    int maxindex = 0;
+    if(n==2){
+        cout<<"! "<<0<<" "<<1<<endl;
+        return;
+    }
+    for(int i=0 ;i<n ; i++){
+       char resp =  query(maxindex , maxindex , i , i);
+       if(resp == '<'){
+        maxindex = i;
+       }
+    }
+    int another_no_idx=0;
+    for(int i=0 ; i<n ; i++){
+        char resp = query(another_no_idx , maxindex , maxindex , i);
+        if(resp == '<'){
+            another_no_idx = i;
+        }
+        else if(resp == '='){
+            char resp2 = query(another_no_idx , another_no_idx , i , i);
+            if(resp2 == '>'){
+                another_no_idx = i;
+            }
+        }
+    }
+    cout<<"! "<<another_no_idx<<" "<<maxindex<<endl;
 }
 
 int32_t main() {
     cin.tie(0)->sync_with_stdio(0);
-    ll t;
+    ll t = 1;
     cin >> t;
-    while (t--) solve();
+    while (t--) comderoP0612();
     return 0;
 }

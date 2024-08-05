@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,44 +36,107 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-
-void comderoP0612() {
-int n,m,k;
-cin>>n>>m>>k;
-vi vec(n,0);
-vi vec2(m,0);
-cin>>vec;
-cin>>vec2;
-map<int,int> mp2;
-for(int i=0 ; i<m ; i++){
-    mp2[vec2[i]]++;
-}
-int matches=0;
-int cnt=0;
-map<int,int> mp;
-int j=0;
-int i=0;
-while (j<n){
-        mp[vec[j]]++;
-        if (mp2.find(vec[j]) != mp2.end() && mp[vec[j]] <= mp2[vec[j]]) {
-            matches++;
+void comderoP0612(){
+ int n;
+ cin>>n;
+ if(n==1){
+    cout<<1<<endl;
+    cout<<1<<endl;
+    return;
+ }
+ if(n==2){
+    cout<<1<<endl;
+    cout<<2<<endl;
+    return;
+ }
+ vi num(64,0);
+ int cnt=0;
+ for(int bits=63 ; bits>=0 ; bits--){
+    int bit = (n>>bits)&1;
+    if(bit==1) cnt++;
+    num[63-bits] = bit;
+ }
+//  deb(num);
+//  deb(num);
+//  int cnt = __builtin_popcountl(n);
+//  deb(cnt);
+ int k = 1;
+ int prev=n;
+ vi res;
+ res.pb(prev);
+//  110111100000101101101011001110100111011001000000000000000000
+ while(k!=(cnt+1)){
+    int ans=0;
+    int count=0;
+    int ind=0;
+    for(int idx=63 ; idx>=0 ; idx--){
+        if(num[idx]==1){
+            count++;
         }
-        while((i<j) and j - i + 1 > m) {
-            if (mp2.find(vec[i]) != mp2.end() && mp[vec[i]] <= mp2[vec[i]]) {
-                matches--;
-            }
-            mp[vec[i]]--;
-            i++;
+        if(count==k){
+            //idhar tak ka number swapped hoga
+            ind=idx;
+            break;
         }
-        if (j - i + 1 == m) {
-            if (matches >= k) {
-                cnt++;
-            }
-        }
-        j++;
     }
-cout<<cnt<<endl;
+    // deb(ind);
+    for(int i=0 ; i<ind ; i++){
+        // deb(i);
+        if(num[i]==1){
+            ans |= (1LL<<(63-i));
+            // deb(ans);
+        }
+    }
+    // deb(ans);
+    for(int i=ind ; i<=63 ; i++){
+        if(num[i]==1){
+             int bit = ((prev>>(63-i))&1);
+             bit^=1;
+             ans |= (bit<<(63-i));
+        }
+    }
+    // deb(ans);
+    if(ans>0)res.pb(ans);
+    prev = ans;
+    k++;
+ }
+cout<<sz(res)<<endl;
+sort(all(res));
+cout<<res<<endl;
 }
+// Brute force code I coded to study the pattern used for the question , take valuwe of num as 25,31,23,14 you will get the pattern 
+// ******************************************************************************/
+// #include <bits/stdc++.h>
+// using namespace std;
+
+// int main()
+// {
+//     int num=25;
+//     vector<int> vec;
+//   int cnt=5;
+//   int prev = 0;
+//   while(cnt--){
+//     for(int i=1 ; i<=25 ; i++){
+//         vec.push_back(i);
+//         prev = i;
+//         for(int j=i+1 ; j<=25 ; j++){
+//             if((prev|j)==num){
+//                 vec.push_back(j);
+//                 prev = j;
+//                 continue;
+//             }
+//         }
+//            for(auto &it : vec){
+//         cout<<it<<" ";
+//     }
+//     cout<<endl;
+//     vec.clear();
+//     }
+ 
+//   }
+
+//     return 0;
+// }
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);

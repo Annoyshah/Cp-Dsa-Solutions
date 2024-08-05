@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,43 +36,24 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-
-void comderoP0612() {
-int n,m,k;
-cin>>n>>m>>k;
-vi vec(n,0);
-vi vec2(m,0);
-cin>>vec;
-cin>>vec2;
-map<int,int> mp2;
-for(int i=0 ; i<m ; i++){
-    mp2[vec2[i]]++;
-}
-int matches=0;
-int cnt=0;
-map<int,int> mp;
-int j=0;
-int i=0;
-while (j<n){
-        mp[vec[j]]++;
-        if (mp2.find(vec[j]) != mp2.end() && mp[vec[j]] <= mp2[vec[j]]) {
-            matches++;
-        }
-        while((i<j) and j - i + 1 > m) {
-            if (mp2.find(vec[i]) != mp2.end() && mp[vec[i]] <= mp2[vec[i]]) {
-                matches--;
-            }
-            mp[vec[i]]--;
-            i++;
-        }
-        if (j - i + 1 == m) {
-            if (matches >= k) {
-                cnt++;
-            }
-        }
-        j++;
+vector<int> multiples;
+void getMultiples(int number, int limit) {
+    for (int i = number; i <= limit; i += number) {
+        multiples.push_back(i);
     }
-cout<<cnt<<endl;
+    // return multiples;
+}
+void comderoP0612(){
+int m, k, a1, ak;
+		cin >> m >> k >> a1 >> ak;
+		int taken_k = m / k;
+		int taken_1 = m % k;
+		int taken_fancy_1 = max(0LL, taken_1 - a1);
+		int left_regular_1 = max(0LL, a1 - taken_1);
+		int taken_fancy_k = max(0LL, taken_k - ak);
+		int to_replace = min(left_regular_1 / k, taken_fancy_k);
+		int ans = taken_fancy_1 + taken_fancy_k - to_replace;
+		cout << ans << endl;
 }
 int32_t main() { 
     // #ifndef ONLINE_JUDGE

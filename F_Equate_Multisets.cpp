@@ -1,4 +1,4 @@
-/* ॐ श्री गणेशाय नमः || */
+/*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
@@ -36,51 +36,69 @@ const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
 
-int can_make_all_1s(string str) {
-    int n = sz(str);
-    for (int k = n; k > 0; k--) {
-        vector<int> v(n, 0); // Store the indices of the last segment index till we have flipped
-        string s = str; // Make a copy of the input string
-        int flipped = 0;
-        bool canbedone = true;
+// Function to check if n is a power of 2
+bool isPowerOfTwo(long long n) {
+    return (n > 0) && ((n & (n - 1)) == 0);
+}
 
-        for (int i = 0; i < n; ++i) {
-            flipped ^= v[i];
-            if (flipped == 1) {
-                s[i] = (s[i] == '0') ? '1' : '0';
-            }
-            if (s[i] == '0') {
-               // Start a new segment, reverse the flip, mark v[i+k] = 1
-                  // if flipped == 1 and s[i]==1 and if flipped=0 and s[i]==0 flip it
-                flipped ^= 1;
-                if (i + k > n) {
-                    canbedone = false;
-                    break;
-                } else if (i + k < n) {
-                    v[i + k] = 1; // Mark the end of the segment to reverse the flip
-                }
-            }
-        }
-        if (canbedone) {
-            return k;
+// Function to determine if q can be formed by multiplying p with any power of 2
+bool solve(int p, int q) {
+    if (q % p != 0 && p % q != 0) {
+        return false;
+    }
+    long long ratio = q / p;
+    long long ratio2 = p / q;
+    
+    if (isPowerOfTwo(ratio) || isPowerOfTwo(ratio2)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+void comderoP0612() {
+int size; 
+    cin >> size;
+    vector<int> nums1(size), nums2(size); 
+    cin >> nums1 >> nums2;
+
+    // Simplify nums1 elements by continuously dividing by 2 if they are even
+    for(int i = 0; i < size; i++) {
+        while(nums1[i] % 2 == 0) 
+            nums1[i] /= 2;
+    }
+
+    multiset<int> set1, set2;
+
+
+    for(int i = 0; i < size; i++) {
+        set1.insert(nums1[i]);
+        set2.insert(nums2[i]);
+    }
+
+    while(!set2.empty()) {
+        int maxElem = *set2.rbegin();
+        
+        if(!set1.count(maxElem)) {
+            if(maxElem == 1) break;
+            set2.erase(--set2.end());
+            set2.insert(maxElem / 2);
+        } else {
+            set1.erase(set1.find(maxElem));
+            set2.erase(set2.find(maxElem));
         }
     }
-    return 1LL;
+
+    if(set2.empty()) 
+        cout << "YES\n";
+    else 
+        cout << "NO\n";
 }
 
-void solve() {
-    int n;
-    cin >> n;
-    string s;
-    cin >> s;
-    int ans = can_make_all_1s(s);
-    cout << ans << endl;
-}
-
-int32_t main() {
+int32_t main() { 
     cin.tie(0)->sync_with_stdio(0);
-    ll t;
+    ll t = 1;
     cin >> t;
-    while (t--) solve();
+    while (t--) comderoP0612();
     return 0;
 }

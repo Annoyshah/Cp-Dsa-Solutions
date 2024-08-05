@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,43 +36,25 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-
-void comderoP0612() {
-int n,m,k;
-cin>>n>>m>>k;
+void comderoP0612(){
+int n;
+cin>>n;
 vi vec(n,0);
-vi vec2(m,0);
 cin>>vec;
-cin>>vec2;
-map<int,int> mp2;
-for(int i=0 ; i<m ; i++){
-    mp2[vec2[i]]++;
+set<int> st;
+for(auto &it : vec){
+    st.insert(it);
 }
-int matches=0;
-int cnt=0;
-map<int,int> mp;
-int j=0;
-int i=0;
-while (j<n){
-        mp[vec[j]]++;
-        if (mp2.find(vec[j]) != mp2.end() && mp[vec[j]] <= mp2[vec[j]]) {
-            matches++;
-        }
-        while((i<j) and j - i + 1 > m) {
-            if (mp2.find(vec[i]) != mp2.end() && mp[vec[i]] <= mp2[vec[i]]) {
-                matches--;
-            }
-            mp[vec[i]]--;
-            i++;
-        }
-        if (j - i + 1 == m) {
-            if (matches >= k) {
-                cnt++;
-            }
-        }
-        j++;
+auto it = st.end();
+--it;
+auto it2 = prev(it);
+// cout<<*it2<<endl;
+for(int i=0 ; i<sz(vec) ; i++){
+    if(vec[i]==*it2){
+        cout<<i+1<<endl;
+        return;
     }
-cout<<cnt<<endl;
+}
 }
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
@@ -81,8 +62,7 @@ int32_t main() {
     // freopen("paint.out", "w", stdout);
     // #endif
     cin.tie(0)->sync_with_stdio(0);
-    ll t=1;
-    cin>>t;
-    while(t--) comderoP0612();
+   
+     comderoP0612();
     return 0;
 }

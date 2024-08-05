@@ -1,11 +1,10 @@
-
 /*ॐ श्री गणेशाय नमः || */
 /* ॐ नमः पार्वती पतये हर हर महादेव */
 /* कर्पूरगौरं करुणावतारं संसारसारं भुजगेन्द्रहारम्। सदा बसन्तं हृदयारविन्दे भवं भवानीसहितं नमामि।। */
 /* ॐ नमो भगवते वासुदेवाय */
+
 #include "bits/stdc++.h"
 using namespace std;
-
  
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -37,44 +36,92 @@ template <typename T1, typename T2> void maxx(T1& a, T2 b) { a = max(a,b); }
 const int mod = 1e9+7;
 const int mod2 = 998244353;
 const double PI = 3.1415926535897932384626433832795;
-
-void comderoP0612() {
-int n,m,k;
-cin>>n>>m>>k;
-vi vec(n,0);
-vi vec2(m,0);
-cin>>vec;
-cin>>vec2;
-map<int,int> mp2;
-for(int i=0 ; i<m ; i++){
-    mp2[vec2[i]]++;
-}
-int matches=0;
-int cnt=0;
-map<int,int> mp;
-int j=0;
-int i=0;
-while (j<n){
-        mp[vec[j]]++;
-        if (mp2.find(vec[j]) != mp2.end() && mp[vec[j]] <= mp2[vec[j]]) {
-            matches++;
+void placeatIdx(int idx , vi& vec , int& largest_odd , int& largest_even , int& operations){
+     repL(i,0,sz(vec)) {
+        if (vec[i] % 2 == 1 && vec[i] == largest_odd) {
+            idx = i;
+            break;
         }
-        while((i<j) and j - i + 1 > m) {
-            if (mp2.find(vec[i]) != mp2.end() && mp[vec[i]] <= mp2[vec[i]]) {
-                matches--;
-            }
-            mp[vec[i]]--;
-            i++;
-        }
-        if (j - i + 1 == m) {
-            if (matches >= k) {
-                cnt++;
-            }
-        }
-        j++;
     }
-cout<<cnt<<endl;
+
+    vec[idx] = largest_even + largest_odd;
+    operations++;
 }
+void coutnoperations(int& operations , vi& vec){
+    repL(i,0,sz(vec)){
+        if ((vec[i]&1) == 0) {
+            operations++;
+        }
+    }
+}
+void solve() {
+    int n;
+    cin >> n;
+    vi vec(n,0);
+    cin>>vec;
+
+    int largest_odd = 0;
+    int largest_even = 0;
+    bool sab_same = true;
+    multiset<int> odd;
+    multiset<int> even;
+    int operations = 0;
+
+    
+    for (auto &it : vec) {
+        if (it % 2 == 0) {
+            even.insert(it);
+        } else {
+            odd.insert(it);
+        }
+    }
+
+
+    if (odd.empty() || even.empty()) {
+        sab_same = true;
+    } else {
+        largest_odd = *(--odd.end());
+        largest_even = *even.begin();
+        sab_same = false;
+    }
+
+    if (sab_same) {
+        cout << 0 << endl;
+        return;
+    }
+
+    sort(all(vec));
+    repL(i,0,n){
+        if (((vec[i]&1)==0) && vec[i] < largest_odd) {
+            vec[i] += largest_odd;
+            operations++;
+            largest_odd = max(largest_odd, vec[i]);
+        }
+    }
+
+    sab_same = true;
+    for (int i = n - 2; i >= 0; i--) {
+        if (vec[i] % 2 != vec[n - 1] % 2) {
+            sab_same = false;
+            break;
+        }
+    }
+
+    if (sab_same) {
+        cout << operations << endl;
+        return;
+    }
+
+    int idx = 0; 
+   
+    placeatIdx(idx , vec , largest_odd , largest_even , operations);
+
+    
+    coutnoperations(operations , vec);
+
+    cout << operations << endl;
+}
+
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);
@@ -83,6 +130,6 @@ int32_t main() {
     cin.tie(0)->sync_with_stdio(0);
     ll t=1;
     cin>>t;
-    while(t--) comderoP0612();
+    while(t--) solve();
     return 0;
 }

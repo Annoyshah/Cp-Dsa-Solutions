@@ -102,54 +102,51 @@ void dfs(int node, vi adj[], vi& vis, set<int> st2 , vector<vi>& vec) {
     }
 }
 
+
 void comderoP0612() {
-int n,k;
-cin>>n>>k;
-vi vec(n,0);
-cin>>vec;
-// map<int,int> mp;
-// deb(vec);
-vector<pii> prefix;
-int i=0;
-int j=n-1;
-deque<int> q;
-for(auto &it : vec){
-    q.push_back(it);
+    long long n,k;
+        cin >> n >> k;
+ 
+        vector<long long> ar(n);
+        for(int i=0;i<n;i++)
+            cin >> ar[i];
+ 
+        long long left=(k+1ll)/2ll;
+        int sunk=0;
+        for(int i=0;i<n;i++)
+        {
+            if(ar[i]<=left)
+            {
+                left=left-ar[i];
+                sunk++;
+                ar[i]=1e18;
+            }
+            else
+            {
+                ar[i]=ar[i]-left;
+                break;
+            }
+        }
+ 
+        long long right=k/2ll;
+        for(int i=n-1;i>=0;i--)
+        {
+            if(ar[i]<=right)
+            {
+                right=right-ar[i];
+                sunk++;
+                ar[i]=0;
+            }
+            else
+            {
+                ar[i]=ar[i]-right;
+                break;
+            }
+        }
+ 
+        cout << sunk << "\n";
 }
-bool flag = true;
-int sum=0;
-int cnt=0;
-int cnt2=0;
-while(cnt<k/2 && !q.empty()){
-    if(flag){
-        cnt++;
-        q.front() = q.front()-1;
-        if(q.front()==0) q.pop_front();
-        flag = !flag;
-    }
-    else{
-        cnt++;
-         q.back() = q.back()-1;
-           if(q.back()==0) q.pop_back();
-        flag = !flag;
-    }
-}
-while(cnt<k/2 && !q.empty()){
-    if(flag){
-        cnt++;
-        q.front() = q.front()-1;
-        if(q.front()==0) q.pop_front();
-        flag = !flag;
-    }
-    else{
-        cnt++;
-         q.back() = q.back()-1;
-           if(q.back()==0) q.pop_back();
-        flag = !flag;
-    }
-}
-cout<< n - q.size() <<endl;
-}
+
 int32_t main() { 
     // #ifndef ONLINE_JUDGE
     // freopen("paint.in", "r", stdin);
